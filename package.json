@@ -1,0 +1,24 @@
+{
+  "name": "hackHunger",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "body-parser": "~1.15.1",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.2.0",
+    "dotenv": "^1.2.0",
+    "ejs": "~2.4.1",
+    "express": "~4.13.4",
+    "morgan": "~1.7.0",
+    "serve-favicon": "~2.3.0",
+    "twilio": "^1.11.1",
+    "node-wit": "^4.0.0",
+    "request": "^2.72.0",
+    "swagger-client": "^2.1.16",
+    "dashbot": "^0.7.3",
+    "emojione": "^2.2.6"
+  }
+}
