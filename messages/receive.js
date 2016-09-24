@@ -6,8 +6,7 @@
  * @type {initializer|exports|module.exports}
  */
 
-const twilio = require('twilio');
-const constants = require('../config/constants');
+const utils = require('../utils/input-utils');
 const wit = require('../wit-ai/wit-ai');
 const express = require('express');
 const router = express.Router();
@@ -37,6 +36,10 @@ function initialLoad(req, res, next) {
 function receivedMessage(req, res, next) {
     const message = req.body.Body; //Message text
     const phoneNumber = req.body.From; //User phone number
-    wit.callWitAI(phoneNumber, message);
+    if(utils.detectEmoji(message)) {
+        wit.callWitAI(phoneNumber, utils.parseEmoji(message));
+    } else {
+        wit.callWitAI(phoneNumber, message);
+    }
     res.send("");
 }

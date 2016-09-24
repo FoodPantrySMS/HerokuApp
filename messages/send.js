@@ -18,17 +18,21 @@ module.exports = {
  * @param message Text message being sent to user
  */
 function sendSMSMessage(number, message) {
-    client.messages.create({
-        to: number,
-        from: process.env.TWILIO_NUMBER,
-        body: message
-    }, function(err, message) {
-        if (err) {
-            console.error('Could not notify user');
-            console.error(err);
-        } else {
-            console.log('user notified');
-        }
+    return new Promise(function(resolve, reject) {
+        client.messages.create({
+            to: number,
+            from: process.env.TWILIO_NUMBER,
+            body: message
+        }, function(err, message) {
+            if (err) {
+                console.error('Could not notify user');
+                console.error(err);
+                reject(err);
+            } else {
+                console.log('user notified');
+                resolve(message);
+            }
+        });
     });
 }
 
