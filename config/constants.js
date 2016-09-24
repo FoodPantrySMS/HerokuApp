@@ -1,5 +1,5 @@
 /**
-* Configuration for Twilio
+* Configuration for Twilio and WitAI
 * Adds twilio access variables to app environment variables
 * @type {*|exports|module.exports}
 */
@@ -16,8 +16,10 @@ cfg.authToken = process.env.TWILIO_AUTH_TOKEN;
 cfg.sendingNumber = process.env.TWILIO_NUMBER;
 cfg.appUrl = process.env.APP_URL;
 cfg.appProtocol = process.env.APP_PROTOCOL;
+cfg.witAccessToken = process.env.WIT_ACCESS_TOKEN;
 
-const requiredConfig = [cfg.accountSid, cfg.authToken, cfg.sendingNumber, cfg.appUrl, cfg.appProtocol];
+
+const requiredConfig = [cfg.accountSid, cfg.authToken, cfg.sendingNumber];
 const isConfigured = requiredConfig.every(function(configValue) {
    return configValue || false;
 });

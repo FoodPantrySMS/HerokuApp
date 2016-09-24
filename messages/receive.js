@@ -7,14 +7,8 @@
  */
 
 const twilio = require('twilio');
-<<<<<<< HEAD
-const wit = require('../wit-ai/wit-ai');
-//const inputUtils = require('../utils/input-utils');
-//const witUtils = require('../utils/wit-utils');
 const constants = require('../config/constants');
-=======
-const wit = require('../wit/wit');
->>>>>>> origin/master
+const wit = require('../wit-ai/wit-ai');
 const express = require('express');
 const router = express.Router();
 
@@ -43,5 +37,6 @@ function initialLoad(req, res, next) {
 function receivedMessage(req, res, next) {
     const message = req.body.Body; //Message text
     const phoneNumber = req.body.From; //User phone number
+    wit.callWitAI(phoneNumber, message);
     res.send("");
 }

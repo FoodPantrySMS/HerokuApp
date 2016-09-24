@@ -1,15 +1,36 @@
 const {Wit, log} = require('node-wit');
+const session = require('../session/session');
+const actions = require('./actions').getActions();
+
+const wit = new Wit({
+    accessToken: process.env.WIT_ACCESS_TOKEN,
+    actions,
+    logger: new log.Logger(log.INFO)
+});
+
+module.exports = {
+    callWitAI: callWitAI
+};
 
 /**
- * Route that receives info from Twilio whenever user sends us an SMS or MMS
- * @param phoneNumber
- * @param message
- */
-function callWitAI(phoneNumber, msg)
-{
-	const client = new Wit({accessToken: process.env.WIT_SERVER_ACCESS_TOKEN});
-	client.message(msg, {})
-	.then((data) => {
-	  console.log('Wit.ai response: ' + JSON.stringify(data));
-	}).catch(console.error);
-}	
+ * Send current session and user entered text to WIT-AI
+ * @param facebookID the Facebook ID of the current user
+ * @param text The text the Facebook user sent through the Bot
+ */ 
+function callWitAI(id, text) {
+    const sessionID = session.findOrCreateSession(id);
+    const sessions = session.getSessions();
+    wit.runActions(
+        sessionID,
+        text,
+        sessions[sessionID].context,
+        (error, context) => {
+            if (error) {
+                console.log('Oops! Got an error from Wit:', error);
+            } else {
+                sessions[sessionId].context = context;
+                session.setSessions(sessions);
+            }
+        }
+    );
+}

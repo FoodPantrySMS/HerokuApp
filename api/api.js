@@ -5,7 +5,7 @@ module.exports = {
 }
 
 function callAPI(zipcode) {
-    request()
+    request("")
     .then(function(data) {
 
     })
