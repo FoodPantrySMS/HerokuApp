@@ -8,8 +8,8 @@
 
 const twilio = require('twilio');
 const wit = require('../wit-ai/wit-ai');
-const inputUtils = require('../utils/input-utils');
-const witUtils = require('../utils/wit-utils');
+//const inputUtils = require('../utils/input-utils');
+//const witUtils = require('../utils/wit-utils');
 const constants = require('../config/constants');
 const express = require('express');
 const router = express.Router();
