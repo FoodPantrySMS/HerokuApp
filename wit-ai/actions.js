@@ -26,19 +26,24 @@ function getActions() {
 
 function sendAction({sessionId, context}, {text}) {
     if(context.location) {
-        send.sendSMSMessage(context._id_, "I found the following results within 10 miles of here.");
         api.callAPI(context.location.location, context.location.type)
         .then(function(data) {
-            console.log(data);
             const newData = JSON.parse(data);
             const locationData = newData.data.results;
-            for(let location of locationData) {
-                const programName = location.ProgramName || "";
-                const streetName = location.StreetName || "";
-                const hours = location.Hours || "";
-                const formattedLocation = programName + " located at " + streetName + " opens at: " + hours;
-                send.sendSMSMessage(context._id_, formattedLocation);
+            if(locationData.length < 1) {
+                send.sendSMSMessage(context._id_, "I'm sorry. I didn't find any locations nearby.");
+                return;
             }
+            send.sendSMSMessage(context._id_, "I found the following results within 10 miles of here.");
+            setTimeout(function() {
+                for(let location of locationData) {
+                    const programName = location.ProgramName || "";
+                    const streetName = location.StreetName || "";
+                    const hours = location.Hours || "";
+                    const formattedLocation = programName + " located at " + streetName + " opens at: " + hours;
+                    send.sendSMSMessage(context._id_, formattedLocation);
+                }
+            }, 1000);
         }, function(err) {
             send.sendSMSMessage(context._id_, "I'm sorry. I didn't find any places nearby.");
         });
@@ -71,7 +76,7 @@ function thankYou({context,  entities}) {
 function needHelp({context, entities}) {
     const id = context._id_;
 
-    context.help = "Ask me questions about where the nearest meal is being served. For example, ask me 'I am hungry'";
+    context.help = "Ask me questions about where the nearest meal is being served. For example, ask me 'Where can I eat?'";
 
     return Promise.resolve(context);
 }

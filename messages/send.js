@@ -25,11 +25,8 @@ function sendSMSMessage(number, message) {
             body: message
         }, function(err, message) {
             if (err) {
-                console.error('Could not notify user');
-                console.error(err);
                 reject(err);
             } else {
-                console.log('user notified');
                 resolve(message);
             }
         });
